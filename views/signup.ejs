@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Register</title>
+</head>
+<body>
+    <h1>Register</h1>
+
+    <form action="" method="POST" enctype="multipart/form-data" class="signup-form">
+        <label for="nickname">Nickname:</label>
+        <input type="text" id="nickname" name="nickname" placeholder="Enter your nickname" required>
+
+        <label for="fullname">Fullname:</label>
+        <input type="text" id="fullname" name="fullname" placeholder="Enter your fullname" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+        <label for="image">Profile Picture:</label>
+        <input type="file" id="image" name="image" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your Password" required>
+
+        <input type="submit" value="Signup">
+
+        <div class="col-md-12 text-center mt-20">
+            <p>Already have an account? <a href="/login">Sign in</a></p>
+        </div>
+    </form>
+     <!-- Axios CDN JS plugin -->
+     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+     <!-- Index/API functionality -->
+     <script src="/index/Signup.js"></script>
+</body>
+</html>

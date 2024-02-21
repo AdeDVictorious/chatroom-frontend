@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Login</title>
+</head>
+<body>
+    <h1 md-3 >Login into your account</h1>
+
+    <form class="signup-form">
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        <div class="email-error" style="color: #f00d0d;"></div>
+
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"  placeholder="Enter your Password" required>
+        <div class="pwd-error" style="color: #f00d0d;"></div>
+
+        <input type="submit" id="login" value="Login">
+
+        <div class="col-md-12 text-center mt-20">
+            <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+        </div>
+    </form>
+     <!-- Axios CDN JS plugin -->
+     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Index/API functionality -->
+    <script src="/index/login.js"></script>
+</body>
+</html>

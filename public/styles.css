@@ -1,0 +1,117 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+.signup-form {
+  max-width: 400px;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type="submit"] {
+  background-color: #4caf50;
+  color: #fff;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+/* Custom Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa;
+}
+
+.container {
+  max-width: 600px;
+}
+
+.chat-rooms button {
+  margin: 5px;
+}
+
+.chat-window {
+  border: 1px solid #dee2e6;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.new-chat,
+.new-name {
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #dee2e6;
+  margin-bottom: 20px;
+}
+
+.new-chat input,
+.new-name input {
+  margin-bottom: 10px;
+}
+
+/* Update Name Form Styles */
+.update-mssg {
+  margin-top: 10px;
+  color: #28a745;
+}
+
+/* Adjust Bootstrap Styles */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-info {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+}
+
+
+/* 
+.container {
+  max-width: 600px;
+}
+.btn {
+  background: #43d9be;
+  color: white;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.btn:focus {
+  outline: none !important;
+} */

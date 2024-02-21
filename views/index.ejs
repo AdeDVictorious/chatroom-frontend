@@ -1,0 +1,117 @@
+<%- include("partials/header") %>
+
+<h2 class="sender-id mb-4" id="<%= user_id %>">Hi, <%= user %> </h2>
+
+<div class="row">
+
+    <div class="col-md-4">
+
+        <ul class="list-group">
+            
+            <% if(users.length > 0) {  %>
+                <% for(let user of users  ) {  %>
+                        
+                    <li class="list-group-item list-group-item-dark cursor-pointer user-list" data-id="<%= user._id %>">
+                        <img src="", alt="profile pics" width="50px" height="50px">
+                        <%= user.nickname %> 
+
+
+                        <% if(user.is_online === "1" ) {  %>
+                            <sup class="online-status" id="<%= user._id %>-status">Online</sup>
+                        <% } else { %>
+                            <sup class="offline-status" id="<%= user._id %>-status">Offline</sup>        
+                        <% } %>  
+
+                    </li>
+                    
+                <% } %>           
+                 
+            <% } %>    
+
+        </ul>
+
+    </div>
+
+    <div class="col-md-8">
+        <h3 class="start-head"> Click to start the Chat </h3>
+        <div class="chat-section">
+
+            <div id="chat-container">    
+                <div class="current-user-chats">
+                    <h5></h5>
+                </div>    
+                <div class="distance-user-chats">
+                    <h5></h5>
+                </div>         
+            </div>
+
+            <form action="" id="chat-form">
+                <input type="text" name="message" placeholder="Enter your message" id="message" class="border" required>
+                <input type="submit" value="Send Message"  class="btn btn-primary">
+            </form>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- delete Modal sections -->
+<div class="modal fade" id="deleteChatModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter">
+    <div class="modal-dialog modal-dialog-centered" role="document" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="'exampleModalLongTitle">Delete Chat</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span arial-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <form id="delete-chat-form" id="delete-message-id">
+          <div class="modal-body">
+              <input type="hidden" name="id" id="delete-message-id">
+            <p>Are you sure you want to delete the message below?</p>
+            <p><b id="delete-message"></b></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger" id="delete-message-id">Delete</button>
+          </div>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+
+
+  
+<!-- Edit Modal sections -->
+<div class="modal fade" id="editChatModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter">
+  <div class="modal-dialog modal-dialog-centered" role="document" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="'exampleModalLongTitle">Edit Chat</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span arial-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form id="edit-chat-form" id="edit-message-id">
+        <div class="modal-body">
+            <input type="text" name="id" id="edit-message" class="mb-2">
+          <p>Click on the update button to submit</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" id="edit-message-id">Update</button>
+        </div>
+      </form>
+      
+    </div>
+  </div>
+</div>
+
+
+<%- include("partials/footer") %>
+
