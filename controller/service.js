@@ -1,5 +1,6 @@
 let axios = require('axios');
 const cloudinary = require('../middleware/cloudImage');
+let deleteFileAfterDelay = require('../middleware/deleteFileUpload');
 
 class Service {
   // create a new user
@@ -77,6 +78,20 @@ class Service {
 
       let image = result.url;
 
+      // Delete file inside the public folder
+      let filePath = req_data.path;
+      let delayMs = 3000;
+
+      // Delete file inside the public folder
+      deleteFileAfterDelay(filePath, delayMs, (err) => {
+        if (err) {
+          console.error('Error occurred during file deletion:', err);
+        } else {
+          console.log('File deletion scheduled successfully.');
+        }
+      });
+
+      // format data to be sent to the server
       let data = {
         creator_id: req_data.user_id,
         name: req_data.name,
@@ -149,7 +164,7 @@ class Service {
     }
   }
 
-  // add the users
+  // add the users to become member
   async add_members(payload, req_data) {
     try {
       // format the payload
@@ -191,6 +206,54 @@ class Service {
     }
   }
 
+  // join group_member route
+  async join_members(payload) {
+    try {
+      // format the payload
+      let group_id = payload.group_id;
+      let userId = payload.user_id;
+
+      let token = payload.token;
+
+      let data = {
+        group_id: group_id,
+        user_id: userId,
+      };
+
+      // Send to the server
+      let response = await axios.post(
+        'http://localhost:5000/api/v1/members/join_members',
+        data,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      let status = response.data.status;
+      console.log(status);
+
+      if (status === 201) {
+        return {
+          status: 201,
+          message: 'Members added successfully',
+          data: response.data,
+        };
+      } else {
+        return {
+          status: 200,
+          message: 'Members added successfully',
+          data: response.data,
+        };
+      }
+    } catch (err) {
+      console.log(err);
+      return { status: 404, message: 'Error adding selected members' };
+    }
+  }
+
   // update group
   async updateGroup_ById(payload) {
     try {
@@ -220,6 +283,20 @@ class Service {
 
       let image = result.url;
 
+      // Delete file inside the public folder
+      let filePath = payload.path;
+      let delayMs = 3000;
+
+      // Delete file inside the public folder
+      deleteFileAfterDelay(filePath, delayMs, (err) => {
+        if (err) {
+          console.error('Error occurred during file deletion:', err);
+        } else {
+          console.log('File deletion scheduled successfully.');
+        }
+      });
+
+      // send data to the server
       let data = {
         id: payload.group_id,
         group_name: payload.group_name,

@@ -37,6 +37,7 @@ member_Route.get('/groups', async (req, res) => {
   }
 });
 
+// get the users
 members_Route.post('/get_members', async (req, res) => {
   let payload = { ...req.body, ...req.session };
   let service = new Services();
@@ -44,11 +45,20 @@ members_Route.post('/get_members', async (req, res) => {
   res.status(resp.status).json(resp);
 });
 
+// add the users to become member
 members_Route.post('/addMembers', async (req, res) => {
   let payload = req.body;
   let req_data = { ...req.session };
   let service = new Services();
   let resp = await service.add_members(payload, req_data);
+  res.status(resp.status).json(resp);
+});
+
+// join group_member route
+members_Route.post('/join_member', async (req, res) => {
+  let payload = { ...req.body, ...req.session };
+  let service = new Services();
+  let resp = await service.join_members(payload);
   res.status(resp.status).json(resp);
 });
 

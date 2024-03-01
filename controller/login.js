@@ -43,7 +43,7 @@ signinRoute.post('/user_login', async (req, res) => {
 signoutRoute.get('/logout', async (req, res) => {
   req.session.user_id = '';
 
-  req.session.mesage = '';
+  req.session.message = '';
 
   res.redirect('/login');
 });

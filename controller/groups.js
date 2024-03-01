@@ -1,17 +1,15 @@
 let express = require('express');
 let uploadImage = require('../middleware/uploadImage');
 let axios = require('axios');
-
 let Services = require('./service');
 
 let group_Route = express.Router();
-let group_chatRoute = express.Router();
+let groupchat_Route = express.Router();
 
-// render page for group
+// render group page
 group_Route.get('/groups', async (req, res) => {
   try {
     let user_id = req.session.user_id;
-    // let user = req.session.user_nickname;
     let token = req.session.token;
     let message = req.session.message;
 
@@ -31,20 +29,17 @@ group_Route.get('/groups', async (req, res) => {
       let groups = response.data.getAll_group;
 
       // render the group page
-      res.render('groupChat', { message, groups });
+      res.render('groups', { message, groups });
     }
   } catch (err) {
     console.log(err);
-    console.log(err.response.data);
   }
 });
 
-// render page for share_group link
+// render share_group link page
 group_Route.get('/shared_group/:id', async (req, res) => {
   try {
     let payload = { ...req.params };
-
-    console.log(payload, 'what is inside the ID');
 
     let user_id = req.session.user_id;
     let token = req.session.token;
@@ -73,7 +68,7 @@ group_Route.get('/shared_group/:id', async (req, res) => {
           message: 'You need to login inorder to access the shared URL',
         });
       } else {
-        // check if group exist
+        // check all group members using group_ids
         let response = await axios.get(
           `http://localhost:5000/api/v1/members/get_members/${payload.id}`,
           {
@@ -84,30 +79,30 @@ group_Route.get('/shared_group/:id', async (req, res) => {
           }
         );
 
-        let total_members = response.data.get_member;
-        let avaliable = groupData.limit - total_members;
+        let total_members = response.data.DBCount;
+        let available = groupData.limit - total_members;
 
         let isOwner = groupData.creator_id == user_id ? true : false;
 
-        // // check if group exist
-        // let resp = await axios.get(
-        //   'http://localhost:5000/api/v1/members/get_member',
-        //   {
-        //     headers: {
-        //       'Content-Type': 'application/json',
-        //       authorization: `Bearer ${token}`,
-        //     },
-        //   }
-        // );
+        // check all group members using group_ids
+        let resp = await axios.get(
+          `http://localhost:5000/api/v1/members/get_member/${payload.id}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-        let isJoined = response.data.get_mmber;
+        let isJoined = resp.data.get_mmber.length;
 
         // render the group page
         res.render('shared_link', {
           group: groupData,
-          avaliable: avaliable,
+          available,
           total_members,
-          avaliable,
+          available,
           isOwner,
           isJoined,
         });
@@ -115,12 +110,11 @@ group_Route.get('/shared_group/:id', async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    console.log(err.response.data);
   }
 });
 
 // Create a group chat
-group_chatRoute.post(
+groupchat_Route.post(
   '/group_msg',
   uploadImage.single('image'),
   async (req, res) => {
@@ -140,7 +134,7 @@ group_chatRoute.post(
 );
 
 // Update a group chat
-group_chatRoute.put(
+groupchat_Route.put(
   '/update_group',
   uploadImage.single('image'),
   async (req, res) => {
@@ -152,7 +146,7 @@ group_chatRoute.put(
 );
 
 // Delete a group chat
-group_chatRoute.delete('/deleteGroup/:id', async (req, res) => {
+groupchat_Route.delete('/deleteGroup/:id', async (req, res) => {
   let payload = { ...req.params, ...req.session };
   let service = new Services();
   let resp = await service.deleteGroup_ById(payload);
@@ -165,11 +159,11 @@ group_chatRoute.delete('/deleteGroup/:id', async (req, res) => {
 });
 
 // Delete a group chat image
-group_chatRoute.delete('/deleteImage', async (req, res) => {
+groupchat_Route.delete('/deleteImage', async (req, res) => {
   let payload = { ...req.query };
   let service = new Services();
   let resp = await service.deleteGroup_Image(payload);
   res.status(resp.status).json(resp);
 });
 
-module.exports = { group_Route, group_chatRoute };
+module.exports = { group_Route, groupchat_Route };

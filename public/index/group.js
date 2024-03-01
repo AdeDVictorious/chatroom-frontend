@@ -154,8 +154,7 @@ $('#add_member_form').submit(async function (e) {
       }, 4000);
       return;
     } else {
-      console.log(jsonData, 'this is jspn');
-
+      // send to the server
       let response = await axios.post('/api/v1/member/addMembers', jsonData, {
         headers: {
           'Content-Type': 'application/json',
