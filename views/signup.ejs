@@ -12,20 +12,27 @@
     <form action="" method="POST" enctype="multipart/form-data" class="signup-form">
         <label for="nickname">Nickname:</label>
         <input type="text" id="nickname" name="nickname" placeholder="Enter your nickname" required>
+        <div class="nicknameErr" style="color: #f71111;"><h6></h6></div>
+
 
         <label for="fullname">Fullname:</label>
         <input type="text" id="fullname" name="fullname" placeholder="Enter your fullname" required>
+        <div class="fullnameErr" style="color: #f71111;"><h6></h6></div>
+
 
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        <div class="emailErr" style="color: #f71111;"><h6></h6></div>
+
 
         <label for="image">Profile Picture:</label>
         <input type="file" id="image" name="image" required>
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" placeholder="Enter your Password" required>
+        <div class="pwdErr" style="color: #f71111;"><h6></h6></div>
 
-        <input type="submit" value="Signup">
+        <input type="submit" id="register" value="Signup">
 
         <div class="col-md-12 text-center mt-20">
             <p>Already have an account? <a href="/login">Sign in</a></p>
@@ -36,6 +43,6 @@
     <!-- Axios CDN JS plugin -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- Index/API functionality -->
-    <script src="/index/Signup.js"></script>
+    <script src="/index/signup.js"></script>
 </body>
 </html>

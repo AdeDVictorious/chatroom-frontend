@@ -264,7 +264,7 @@ $('#deleteGroupForm').submit(async function (e) {
   }
 });
 
-// copy function
+// group link copy function
 $('.copy').click(function () {
   $(this).prepend('<span class = "copied_text">Copied</span>');
 

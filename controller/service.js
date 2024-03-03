@@ -3,16 +3,85 @@ const cloudinary = require('../middleware/cloudImage');
 let deleteFileAfterDelay = require('../middleware/deleteFileUpload');
 
 class Service {
-  // create a new user
-  async new_user(data) {
-    console.log(data);
+  // --- Route to create a new user only --- //
+  async new_user(payload) {
+    try {
+      // ---- Save image to cloud ---- //
+      let options = {
+        use_filename: true,
+        unique_filename: false,
+        overwrite: true,
+      };
+
+      let result = await cloudinary.uploader.upload(payload.path, options);
+
+      let image = result.url;
+
+      // Delete file inside the public folder
+      let filePath = payload.path;
+      let delayMs = 3000;
+
+      // Delete file inside the public folder
+      deleteFileAfterDelay(filePath, delayMs, (err) => {
+        if (err) {
+          console.error('Error occurred during file deletion:', err);
+        } else {
+          console.log('File deletion scheduled successfully.');
+        }
+      });
+
+      // format data to be sent to the server
+      let data = {
+        nickname: payload.nickname,
+        fullname: payload.fullname,
+        image: image,
+        email: payload.email,
+        password: payload.password,
+      };
+
+      let response = await axios.post(
+        'http://localhost:5000/api/v1/signup',
+        data,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      let status = response.data.status;
+      let respon = response.data.message;
+
+      if (status == 201) {
+        return { status: 201, message: response.data };
+      } else if (respon === 'This email has been used') {
+        // delete the Old image uploaded to cloudinary
+        let imageUrl = image;
+
+        let publicId = cloudinary
+          .url(imageUrl, { type: 'fetch' })
+          .split('/')
+          .pop()
+          .replace(/\..*/, '');
+
+        // Delete the image using the public ID
+        let last_image = await cloudinary.uploader.destroy(publicId);
+
+        return { status: 200, message: response.data };
+      } else {
+        return { status: 200, message: response.data };
+      }
+    } catch (err) {
+      console.log(err, 'err');
+      return { status: 400, message: err.response.data.message };
+    }
   }
 
   // Users login
   async user_login(data) {
     try {
       let response = await axios.post(
-        'http://localhost:5000/api/v1/user/login_user',
+        'http://localhost:5000/api/v1/login',
         data,
         {
           headers: {
