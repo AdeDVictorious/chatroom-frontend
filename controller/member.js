@@ -7,6 +7,7 @@ let Services = require('./service');
 let member_Route = express.Router();
 let members_Route = express.Router();
 
+// render the group users create & group joined
 member_Route.get('/groups', async (req, res) => {
   try {
     let user_id = req.session.user_id;
@@ -45,7 +46,7 @@ members_Route.post('/get_members', async (req, res) => {
   res.status(resp.status).json(resp);
 });
 
-// add the users to become member
+// add/updating the users to become member
 members_Route.post('/addMembers', async (req, res) => {
   let payload = req.body;
   let req_data = { ...req.session };

@@ -2,7 +2,6 @@ let express = require('express');
 let axios = require('axios');
 
 let group_Chat_Route = express.Router();
-let group_ChatsRoute = express.Router();
 
 // render group page
 group_Chat_Route.get('/group_chat', async (req, res) => {
@@ -15,7 +14,7 @@ group_Chat_Route.get('/group_chat', async (req, res) => {
     } else {
       // Get all group created and group joined
       let response = await axios.get(
-        'http://localhost:5000/api/v1/groups_Chat/get_groups',
+        'http://localhost:5000/api/v1/group_chat/get_groups',
         {
           headers: {
             'Content-Type': 'application/json',
@@ -36,4 +35,4 @@ group_Chat_Route.get('/group_chat', async (req, res) => {
   }
 });
 
-module.exports = { group_Chat_Route, group_ChatsRoute };
+module.exports = { group_Chat_Route };

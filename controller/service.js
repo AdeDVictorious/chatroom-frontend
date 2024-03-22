@@ -101,6 +101,53 @@ class Service {
     }
   }
 
+  // join group_member route
+  async join_contact_list(payload) {
+    try {
+      // format the payload
+      let contact_id = payload.contact_id;
+      let user_id = payload.user_id;
+
+      let token = payload.token;
+
+      let data = {
+        contact_id: user_id,
+        user_id: contact_id,
+      };
+
+      // Send to the server
+      let response = await axios.post(
+        'http://localhost:5000/api/v1/contacts/join_contacts',
+        data,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      let status = response.data.status;
+
+      if (status === 201) {
+        return {
+          status: 201,
+          message: 'Contact added successfully',
+          data: response.data,
+        };
+      } else {
+        return {
+          status: 200,
+          message: 'Contact added successfully',
+          data: response.data,
+        };
+      }
+    } catch (err) {
+      console.log(err);
+      return { status: 400, message: 'Error adding selected members' };
+    }
+  }
+
   // save a chat message
   async chat_msg(req_data) {
     try {
@@ -187,10 +234,21 @@ class Service {
           message: 'Group created successfully',
           data: response.data,
         };
+      } else {
+        return {
+          status: 200,
+          message: 'Group found',
+          data: response.data,
+        };
       }
     } catch (err) {
       console.log(err.response);
-      return { status: 404, message: err.response.data };
+
+      if (err.response.data) {
+        return { status: 404, message: err.response.data };
+      } else {
+        return { status: 404, message: err.response.data };
+      }
     }
   }
 
@@ -456,21 +514,6 @@ class Service {
       return { status: 404, message: 'Error deleting group image' };
     }
   }
-
-  // // keep this here for later use case
-  // // Extract public ID from the URL (assuming the URL is in the format: https://res.cloudinary.com/cloud_name/image/upload/public_id.jpg)
-  // const imageUrl = 'https://res.cloudinary.com/your_cloud_name/image/upload/public_id.jpg';
-  // const publicId = cloudinary.url(imageUrl, { type: 'fetch' }).split('/').pop().replace(/\..*/, '');
-
-  // // Delete the image using the public ID
-  // cloudinary.uploader.destroy(publicId, (error, result) => {
-  //   if (error) {
-  //     console.error('Error deleting image:', error.message);
-  //   } else {
-  //     console.log('Image deleted successfully:', result);
-  //     // Update your database to remove the reference to the deleted image
-  //     // TODO: Implement the database update logic here
-  //   }
 }
 
 module.exports = Service;

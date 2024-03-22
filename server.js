@@ -45,26 +45,34 @@ app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
-let { homeRoute, chatRoute } = require('./controller/home');
+let {
+  homeRoute,
+  my_profileRoute,
+  chatRoute,
+  contactRoute,
+} = require('./controller/home');
 let { group_Route, groupchat_Route } = require('./controller/groups');
 let { member_Route, members_Route } = require('./controller/member');
-let { group_Chat_Route, group_ChatsRoute } = require('./controller/group_chat');
+let { group_Chat_Route } = require('./controller/group_chat');
 let { loginRoute, signinRoute, signoutRoute } = require('./controller/login');
 let { signupRoute, registerRoute } = require('./controller/signup');
+let { errorRoute } = require('./controller/error_page');
 
 app.use(homeRoute);
+app.use(my_profileRoute);
 app.use(group_Route);
 app.use(member_Route);
 app.use(group_Chat_Route);
 app.use(loginRoute);
 app.use(signoutRoute);
 app.use(signupRoute);
+app.use(errorRoute);
 
 app.use('/api/v1', registerRoute, signinRoute);
+app.use('/api/v1/user', contactRoute);
 app.use('/api/v1/chat', chatRoute);
 app.use('/api/v1/group', groupchat_Route);
 app.use('/api/v1/member', members_Route);
-app.use('/api/v1/group_chat', group_ChatsRoute);
 
 let PORT = 8000;
 

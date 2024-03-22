@@ -16,11 +16,11 @@
 
 
         <% if(isOwner) { %>
-            <p>You are the creator of this group, so you can't join this group </p>
+            <p><%= message %></p>
         <% } else if(isJoined != 0) { %>
-            <p>You have already join this group </p>
-        <% } else if(available == 0) { %>
-           <p>Group already filled</p>    
+            <p><%= message %></p>
+        <% } else if(available === 0) { %>
+           <p><%= message %></p>
         <% } else { %>
             <button class="btn btn-primary join-now" data-id="<%= group._id %>"> Join now</button>
         <% } %>

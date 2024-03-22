@@ -1,0 +1,35 @@
+<%- include("partials/header") %>
+
+<div class="container">
+
+    <div>
+        <img src="<%= userData.image %>" alt="profile pic" width="200px", height="200px">
+       <div class="mb-2">
+        <p><b>username: </b><b><%= userData.nickname %></p>
+       </div>
+            
+                
+      <% if(isOwner) { %>
+            <p><%= message %></p>
+            <button class="btn btn-primary copy" id="chat_link"  data-id="<%= userData._id %>" ><a class="copy">
+              <i class="fa fa-copy"></i>
+            </a> Share chat Link</button>
+            
+        <% } else if(isJoined != 0) { %>
+            <p><%= message %></p>
+        <% } else { %>
+            <p><%= message %></p>
+            <button class="btn btn-primary join-now" data-id="<%= userData._id %>">Send Message </button>
+        <% } %>
+
+    </div>
+
+</div>  
+
+
+
+<%- include("partials/footer_top") %>
+
+<script src="/index/chatMe.js"></script>
+
+<%- include("partials/footer_down") %>

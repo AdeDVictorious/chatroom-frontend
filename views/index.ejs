@@ -11,27 +11,55 @@
             <% if(users.length > 0) {  %>
                 <% for(let user of users  ) {  %>
                         
-                    <li class="list-group-item list-group-item-dark cursor-pointer user-list" data-id="<%= user._id %>">
-                        <img src="", alt="profile pics" width="50px" height="50px">
-                        <%= user.nickname %> 
+                    <li class="list-group-item list-group-item-dark cursor-pointer user-list" data-id="<%= user.contact_id._id %>">
+                        <img src="<%= user.contact_id.image %>", alt="profile pics" width="50px" height="50px">
+                        <%= user.contact_id.nickname %> 
 
 
-                        <% if(user.is_online === "1" ) {  %>
-                            <sup class="online-status" id="<%= user._id %>-status">Online</sup>
+                        <% if(user.contact_id.is_online === "1" ) {  %>
+                            <sup class="online-status" id="<%= user.contact_id._id %>-status">Online</sup>
                         <% } else { %>
-                            <sup class="offline-status" id="<%= user._id %>-status">Offline</sup>        
+                            <sup class="offline-status" id="<%= user.contact_id._id %>-status">Offline</sup>        
                         <% } %>  
 
                     </li>
                     
                 <% } %>           
-                 
+            
+                
+            <% } else { %>  
+              <div class="container">
+
+                <div>
+                    <img src="<%= userData.image %>" alt="profile pic" width="200px", height="200px">
+                    <div class="mb-2">
+                      <p><b>username: </b><b><%= userData.nickname %></p>
+                     </div>
+                        
+                            
+                  <% if(isOwner) { %>
+                        <p><%= message %></p>
+                        <button class="btn btn-primary copy" id="chat_link"><a class="copy">
+                          <i class="fa fa-copy"></i>
+                        </a> Share chat Link</button>
+                        
+                    <% } else if(isJoined != 0) { %>
+                        <p><%= message %></p>
+                    <% } else { %>
+                        <button class="btn btn-primary join-now" data-id="<%= userData._id %>"> Copy chat Link</button>
+                    <% } %>
+            
+                </div>
+            
+            </div>           
+
             <% } %>    
 
         </ul>
 
     </div>
 
+    <% if(users.length > 0) {  %>
     <div class="col-md-8">
         <h3 class="start-head"> Click to start the Chat </h3>
         <div class="chat-section">
@@ -54,6 +82,10 @@
         </div>
 
     </div>
+
+    <% } else { %> 
+      <!-- Do nothing here -->
+    <% } %>  
 
 </div>
 

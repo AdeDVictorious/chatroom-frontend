@@ -48,9 +48,9 @@ group_Route.get('/shared_group/:id', async (req, res) => {
     if (!user_id) {
       res.redirect('/login');
     } else {
-      // check if group exist
+      // check all group members using group_ids
       let response = await axios.get(
-        `http://localhost:5000/api/v1/group_chat/groupChat/${payload.id}`,
+        `http://localhost:5000/api/v1/members/check_member/${payload.id}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -58,8 +58,14 @@ group_Route.get('/shared_group/:id', async (req, res) => {
           },
         }
       );
+ 
+      let groupData = response.data.groupData;
 
-      let groupData = response.data.get_Group;
+      let total_members = response.data.total_members;
+      let available = response.data.available;
+      let isJoined = response.data.isJoined;
+      let isOwner = response.data.isOwner;
+      let message = response.data.message;
 
       if (!groupData) {
         res.render('error', { message: '404 not found ' });
@@ -68,43 +74,14 @@ group_Route.get('/shared_group/:id', async (req, res) => {
           message: 'You need to login inorder to access the shared URL',
         });
       } else {
-        // check all group members using group_ids
-        let response = await axios.get(
-          `http://localhost:5000/api/v1/members/get_members/${payload.id}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        let total_members = response.data.DBCount;
-        let available = groupData.limit - total_members;
-
-        let isOwner = groupData.creator_id == user_id ? true : false;
-
-        // check all group members using group_ids
-        let resp = await axios.get(
-          `http://localhost:5000/api/v1/members/get_member/${payload.id}`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        let isJoined = resp.data.get_mmber.length;
-
         // render the group page
         res.render('shared_link', {
           group: groupData,
           available,
           total_members,
-          available,
           isOwner,
           isJoined,
+          message,
         });
       }
     }
@@ -113,7 +90,7 @@ group_Route.get('/shared_group/:id', async (req, res) => {
   }
 });
 
-// Create a group chat
+// post/create a group chat
 groupchat_Route.post(
   '/group_msg',
   uploadImage.single('image'),

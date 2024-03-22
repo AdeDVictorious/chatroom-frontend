@@ -1,0 +1,65 @@
+<%- include("partials/header") %>
+
+<div class="container">
+
+    <div>
+        <img src="<%= userData.image %>" alt="profile pic" width="200px", height="200px">
+       <div class="username mb-2" id="<%= userData._id%>">
+        <p><b>username: </b><b><%= userData.nickname %></p>
+       </div>
+       <div class="mb-2">
+        <p><b>fullname: </b><b><%= userData.fullname %></p>
+       </div>
+       <div class="mb-2">
+        <p><b>username: </b><b><%= userData.email %></p>
+       </div>
+            
+                
+      <% if(isOwner) { %>
+        <div class="url" id="<%= url %>">
+            <p><%= message %></p>
+            <button class="btn btn-primary copy" id="chat_link"><a class="copy-link" id="<%= userData._id %>">
+              <i class="fa fa-copy"></i>
+            </a> Share chat Link</button>
+        </div>
+        <% } else { %>
+           
+        <% } %>
+
+    </div>
+
+</div>  
+
+
+
+<%- include("partials/footer_top") %>
+
+<script>
+    // chat link copy function
+$('.copy').click(function () {
+  let chat_link = document.querySelector('#chat_link');
+  let chatMe = document.querySelector('.url');
+  let url_link = chatMe.getAttribute('id');
+
+  chat_link.textContent = '';
+
+  $(this).prepend('<span class = "copied_text">Copied</span>');
+
+  let url = url_link
+
+  let temp = $('<input>');
+  $('body').append(temp);
+  temp.val(url).select();
+  document.execCommand('copy');
+
+  temp.remove();
+
+  setTimeout(() => {
+    $('.copied_text').remove();
+
+    chat_link.textContent = 'Copy chat link';
+  }, 2000);
+});
+</script>
+
+<%- include("partials/footer_down") %>

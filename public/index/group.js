@@ -31,12 +31,19 @@ form.addEventListener('submit', async function (e) {
     }
   } catch (error) {
     console.log(error);
-    console.log(error.response.data, 'this is what we have in response');
-
     let status = error.response.data.message.status;
     let errMessage = error.response.data.message.message;
+    
+    if (error.response.data.message.errMsg) {
+      let errMsg = document.querySelector('#modalError');
 
-    if (status === 400) {
+      errMsg.textContent = error.response.data.message.errMsg;
+
+      setTimeout(() => {
+        // Clear the error message
+        errMsg.textContent = '';
+      }, 5000);
+    } else if (status === 400) {
       let errMsg = document.querySelector('#modalError');
 
       errMsg.textContent = errMessage;
@@ -46,7 +53,16 @@ form.addEventListener('submit', async function (e) {
         errMsg.textContent = '';
       }, 5000);
     } else {
-      location.assign('/dashboard');
+      console.log(err);
+
+      let errMsg = document.querySelector('#modalError');
+
+      errMsg.textContent = errMessage;
+
+      setTimeout(() => {
+        // Clear the error message
+        errMsg.textContent = '';
+      }, 5000);
     }
   }
 });
@@ -244,7 +260,7 @@ $('#deleteGroupForm').submit(async function (e) {
     let id = $('#delete_group_id').val();
     let last_imgae = $('#last_image_url').val();
 
-    // query params
+    // To delete group Image from cloudinary using query params
     let resp = await axios.delete('/api/v1/group/deleteImage', {
       params: {
         last_Image: `${last_imgae}`,

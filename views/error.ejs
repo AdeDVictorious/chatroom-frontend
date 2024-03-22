@@ -1,8 +1,86 @@
-
+<!-- 
 <% if(typeof message !=undefined) { %>
 
     <h1><%= message %></h1>
 
-<% } %>
+<% } %> -->
+
+<!-- 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Note Recorder</title>
+</head>
+<body>
+
+<h1>Voice Note Recorder</h1>
+
+<form id="voiceNoteForm">
+    <label for="voiceNote">Record Voice Note:</label>
+    <button id="startRecording">Start Recording</button>
+    <button id="stopRecording" disabled>Stop Recording</button>
+    <textarea id="voiceNote" name="voiceNote" rows="4" cols="50" readonly></textarea>
+    <button type="submit">Submit Voice Note</button>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const startRecordingButton = document.getElementById('startRecording');
+        const stopRecordingButton = document.getElementById('stopRecording');
+        const voiceNoteTextArea = document.getElementById('voiceNote');
+        const voiceNoteForm = document.getElementById('voiceNoteForm');
+
+        let mediaRecorder;
+        let chunks = [];
 
 
+        navigator.mediaDevices.getUserMedia({ audio: true })
+
+            .then(function (stream) {
+                mediaRecorder = new MediaRecorder(stream);
+
+                startRecordingButton.addEventListener('click', function () {
+                    mediaRecorder.start();
+                    startRecordingButton.disabled = true;
+                    stopRecordingButton.disabled = false; 
+                });
+
+                stopRecordingButton.addEventListener('click', function () {
+                    mediaRecorder.stop();
+                    startRecordingButton.disabled = false;
+                    stopRecordingButton.disabled = true;
+                });
+
+                mediaRecorder.ondataavailable = function (event) {
+                    if (event.data.size > 0) {
+                        chunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = function () {
+                    const blob = new Blob(chunks, { type: 'audio/mp3' });
+
+                    console.log(blob, "This is what inside blob")
+                    // 
+                    chunks = [];
+                    const audioURL = URL.createObjectURL(blob);
+                    voiceNoteTextArea.value = audioURL;
+                };
+            })
+            .catch(function (err) {
+                console.error('Error accessing microphone:', err);
+            });
+
+        voiceNoteForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            // Handle the submission of the voice note, e.g., send it to the server
+            alert('Voice note submitted!');
+        });
+    });
+</script>
+
+</body>
+</html> -->

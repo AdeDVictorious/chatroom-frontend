@@ -8,7 +8,7 @@ let creator_id;
 let senderId = document.querySelector('.sender-id');
 let sender_id = senderId.getAttribute('id');
 
-let socket = new WebSocket('ws://localhost:3000', [sender_id]);
+let socket = new WebSocket(`ws://localhost:3000?user_id=${sender_id}`);
 
 document.addEventListener('DOMContentLoaded', function () {
   // // ------- Personal chat section ----------//
@@ -341,7 +341,7 @@ document.addEventListener('DOMContentLoaded', function () {
           <div class="user-data ">
             <img src="` +
             chat.sender_id.image +
-            `">
+            `"width="25px" height="25px">
           <b>` +
             chat.sender_id.nickname +
             ` </b> ` +
@@ -418,7 +418,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <div class="user-data ">
           <img src="` +
           chats.sender_id.image +
-          `">
+          `"width="25px" height="25px">
         <b>` +
           chats.sender_id.nickname +
           ` </b> ` +
@@ -671,3 +671,27 @@ function scroll_group_chat() {
   // Scroll to the bottom
   chatContainer.scrollTop = targetScroll;
 }
+
+// chat link copy function
+$('.copy').click(function () {
+  let chat_link = document.querySelector('#chat_link');
+
+  chat_link.textContent = '';
+  $(this).prepend('<span class = "copied_text">Copied</span>');
+
+  let my_id = sender_id;
+  let url = window.location.host + '/chat_me_link/' + my_id;
+
+  let temp = $('<input>');
+  $('body').append(temp);
+  temp.val(url).select();
+  document.execCommand('copy');
+
+  temp.remove();
+
+  setTimeout(() => {
+    $('.copied_text').remove();
+
+    chat_link.textContent = 'Copy chat link';
+  }, 2000);
+});
