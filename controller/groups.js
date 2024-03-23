@@ -58,7 +58,7 @@ group_Route.get('/shared_group/:id', async (req, res) => {
           },
         }
       );
- 
+
       let groupData = response.data.groupData;
 
       let total_members = response.data.total_members;

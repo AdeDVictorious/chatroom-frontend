@@ -33,7 +33,7 @@ form.addEventListener('submit', async function (e) {
     console.log(error);
     let status = error.response.data.message.status;
     let errMessage = error.response.data.message.message;
-    
+
     if (error.response.data.message.errMsg) {
       let errMsg = document.querySelector('#modalError');
 
@@ -90,8 +90,6 @@ $('.addMember').click(async function () {
     let status = response.data.status;
     let users = response.data.data.users;
 
-    console.log(users, 'this is status');
-
     if (status === 200) {
       let html = '';
 
@@ -105,11 +103,11 @@ $('.addMember').click(async function () {
                 <input type="checkbox" ` +
           (isMemberOfGroup ? 'checked' : '') +
           ` name="members[]" value="` +
-          user._id +
+          user.user[0]._id +
           `" 
           </td>
           <td>` +
-          user.nickname +
+          user.user[0].nickname +
           `</td>          
           </tr>
         `;
